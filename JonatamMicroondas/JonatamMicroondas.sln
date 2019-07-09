@@ -3,9 +3,28 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - JonatamMicroondas.UI", "1 - JonatamMicroondas.UI", "{7F2D423D-9DA2-4D58-B07B-2DCE2BEC7749}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - JonatamMicroondas.Domain", "2 - JonatamMicroondas.Domain", "{16A992E6-0604-461C-AE3D-C51C80B4DF8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JonatamMicroondas.Domain", "JonatamMicroondas.Domain\JonatamMicroondas.Domain.csproj", "{0DAFF03B-558D-4EB2-815B-C31578DF5339}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0DAFF03B-558D-4EB2-815B-C31578DF5339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DAFF03B-558D-4EB2-815B-C31578DF5339}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DAFF03B-558D-4EB2-815B-C31578DF5339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DAFF03B-558D-4EB2-815B-C31578DF5339}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0DAFF03B-558D-4EB2-815B-C31578DF5339} = {16A992E6-0604-461C-AE3D-C51C80B4DF8B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {863724D6-DCB4-47E2-AA0A-F64FD500F459}
