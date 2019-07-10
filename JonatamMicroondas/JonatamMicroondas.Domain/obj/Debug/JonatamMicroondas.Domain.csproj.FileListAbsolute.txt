@@ -1,0 +1,6 @@
+C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroondas.Domain\bin\Debug\JonatamMicroondas.Domain.dll
+C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroondas.Domain\bin\Debug\JonatamMicroondas.Domain.pdb
+C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroondas.Domain\obj\Debug\JonatamMicroondas.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroondas.Domain\obj\Debug\JonatamMicroondas.Domain.dll
+C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroondas.Domain\obj\Debug\JonatamMicroondas.Domain.pdb
+C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroondas.Domain\obj\Debug\JonatamMicroondas.Domain.csprojAssemblyReference.cache

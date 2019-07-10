@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - JonatamMicroondas.Domai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JonatamMicroondas.Domain", "JonatamMicroondas.Domain\JonatamMicroondas.Domain.csproj", "{0DAFF03B-558D-4EB2-815B-C31578DF5339}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JonatamMicroondas.UI.Web", "JonatamMicroondas.UI.Web\JonatamMicroondas.UI.Web.csproj", "{1DA5EA30-084E-4D45-AFB0-56EF5C54A234}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,12 +21,17 @@ Global
 		{0DAFF03B-558D-4EB2-815B-C31578DF5339}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DAFF03B-558D-4EB2-815B-C31578DF5339}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DAFF03B-558D-4EB2-815B-C31578DF5339}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DA5EA30-084E-4D45-AFB0-56EF5C54A234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DA5EA30-084E-4D45-AFB0-56EF5C54A234}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DA5EA30-084E-4D45-AFB0-56EF5C54A234}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DA5EA30-084E-4D45-AFB0-56EF5C54A234}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0DAFF03B-558D-4EB2-815B-C31578DF5339} = {16A992E6-0604-461C-AE3D-C51C80B4DF8B}
+		{1DA5EA30-084E-4D45-AFB0-56EF5C54A234} = {7F2D423D-9DA2-4D58-B07B-2DCE2BEC7749}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {863724D6-DCB4-47E2-AA0A-F64FD500F459}

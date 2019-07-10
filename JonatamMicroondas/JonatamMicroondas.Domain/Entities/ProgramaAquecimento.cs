@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace JonatamMicroondas.Domain.Entities
 {
-    class ProgramaAquecimento
+    public class ProgramaAquecimento
     {
         public String Nome { get; set; }
-        public String Descricao { get; set; }
-        public DateTime Tempo { get; set; }
-        public int Potencia { get; set; }
+        public String Instrucao { get; set; }
+        public String Tempo { get; set; }
+        public String Potencia { get; set; }
+        public char Caractere { get; set; }
     }
 }
