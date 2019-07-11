@@ -14,64 +14,75 @@
 
 @section Scripts {
     <script>
-    var idAquecimento;
-    var timer;
+        var idAquecimento;
+        var timer;
 
-    $("#iniciar").click(function () {
-        var tempo = $("#tempo").val();
-        var potencia = $("#potencia").val();
-        var programa = $("#programa").val();
-        if (potencia.length === 0) {
-            $("#potencia").val(10);
-        }
-        $.ajax({
-            url: "@Url.Action("IniciarAquecimento", "Home")",
-            data: JSON.stringify({"potencia":potencia,"tempo":tempo,"programa":programa}),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            type: "POST"
-        }).done(function (result) {
-            timer = setInterval(AtualizarStatus, 998);
-        }).fail(function (xhr, status, error) {
-            $("#status").html(xhr.responseJSON.Message);
-        })
-    });
+        $("#iniciar").click(function () {
+
+            var tempo = $("#tempo").val();
+            var potencia = $("#potencia").val();
+            var programa = $("#programa").val();
+
+            if (!$.isNumeric(tempo)) {
+                $("#status").html("Tempo inválido.");
+            return;
+            }
+
+            if (potencia && !$.isNumeric(potencia)) {
+                $("#status").html("Potência inválida.");
+            return;
+            }
+
+            $("input, button").prop('disabled', true);
+
+            $.ajax({
+                url: "@Url.Action("IniciarAquecimento", "Home")",
+                data: JSON.stringify({ "potencia": potencia, "tempo": tempo, "programa": programa }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "POST"
+            }).done(function (result) {
+                $("#status").html(result.Progresso);
+                $("#potencia").val(result.Potencia);
+                timer = setInterval(function () { AtualizarStatus(result.Id) }, 1000);
+            }).fail(function (xhr, status, error) {
+                $("#status").html(xhr.responseJSON.Message);
+            });
+        });
 
     $("#iniciarAuto").click(function ()
     {
-        $("#tempo").val(30000);
-        $("#potencia").val(8);
-        $("#programa").val("");
-        var tempo = $("#tempo").val();
-        var potencia = $("#potencia").val();
+        $("input, button").prop('disabled', true);
+
         $.ajax({
-            url: "@Url.Action("IniciarAquecimento", "Home")",
-            data: JSON.stringify({"potencia":potencia,"tempo":tempo,"programa":""}),
+            url: "@Url.Action("IniciarAquecimentoRapido", "Home")",
+            contentType: "application/json; charset=utf-8",
+            type: "POST"
+        }).done(function (result) {
+            $("#tempo").val(result.Tempo);
+            $("#potencia").val(result.Potencia);
+            $("#status").html(result.Progresso);
+            timer = setInterval(function () { AtualizarStatus(result.Id) }, 1000);
+        }).fail(function (xhr, status, error) {
+            $("#status").html(xhr.responseJSON.Message);
+        });
+    });
+
+    function AtualizarStatus(id) {
+        $.ajax({
+            url: "@Url.Action("ObterAquecimento", "Home")",
+            data: JSON.stringify({ "id": id }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             type: "POST"
         }).done(function (result) {
-            timer = setInterval(AtualizarStatus, 980);
-        }).fail(function (xhr, status, error) {
-            $("#status").html(xhr.responseJSON.Message);
-        })
-    });
-
-    function AtualizarStatus() {
-        $.ajax({
-            url: "@Url.Action("ObterStatusAquecimento", "Home")",
-            type: "POST"
-        }).done(function (result) {
-            if (result === 'aquecida') {
+            if (result.Finalizado) {
                 clearTimeout(timer);
-                $("#programa").val(result);
-            } else {
-                for (var i = 0; i < $("#potencia").val(); i++){
-                    $("#programa").val($("#programa").val() + ".");
-                }
-        }
-        $("#status").html(result);
-    });
+                $("input, button").prop('disabled', false);
+            }
+            $("#status").html(result.Progresso);
+        });
     }
+
     </script>
 }

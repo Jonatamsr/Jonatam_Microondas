@@ -1,43 +1,62 @@
-﻿using JonatamMicroondas.Domain.Services;
+﻿using JonatamMicroondas.Domain.Exceptions;
+using JonatamMicroondas.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using static JonatamMicroondas.Domain.Services.ProgramaAquecimentoService;
 
 namespace JonatamMicroondas.UI.Web.Controllers
 {
     public class HomeController : Controller
     {
-            ProgramaAquecimentoService programaAquecimentoService = new ProgramaAquecimentoService();
+        //Normalmente seria utilizado injeção de dependência. Por questões de tempo fiz a instância diretamente.
+        AquecimentoService aquecimentoService = new AquecimentoService();
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public JsonResult IniciarAquecimento(string tempo, string potencia, string programa)
+        public JsonResult IniciarAquecimento(int tempo, int? potencia, string programa)
         {
             try
             {
-                programaAquecimentoService.IniciarPrograma(tempo, potencia, programa);
+                var aquecimento = aquecimentoService.IniciarAquecimento(tempo, potencia);
+                return Json(aquecimento);
             }
             catch (AquecimentoException e)
             {
                 return ThrowJSONError(e);
             }
-            return Json("");
         }
 
         [HttpPost]
-        public JsonResult ObterStatusAquecimento()
+        public JsonResult IniciarAquecimentoRapido()
         {
-            if (programaAquecimentoService.ObterStatus())
+            try
             {
-                return Json("aquecida");
-            };
-            return Json("em processo");
+                var aquecimento = aquecimentoService.IniciarAquecimentoRapido();
+                return Json(aquecimento);
+            }
+            catch (AquecimentoException e)
+            {
+                return ThrowJSONError(e);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult ObterAquecimento(Guid id)
+        {
+            try
+            {
+                var aquecimento = aquecimentoService.ObterAquecimento(id);
+                return Json(aquecimento);
+            }
+            catch (Exception e)
+            {
+                return ThrowJSONError(e);
+            }
         }
 
         private JsonResult ThrowJSONError(Exception e)
