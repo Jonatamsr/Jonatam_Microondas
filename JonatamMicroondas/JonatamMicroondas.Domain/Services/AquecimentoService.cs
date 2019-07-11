@@ -17,42 +17,62 @@ namespace JonatamMicroondas.Domain.Services
         private AquecimentoValidation aquecimentoValidation = new AquecimentoValidation();
         private static List<Aquecimento> aquecimentos = new List<Aquecimento>();
 
-        public Aquecimento IniciarAquecimento(int tempo, int? potencia)
+        public Aquecimento IniciarAquecimento(int tempo, int? potencia, string programa, char caractere)
         {
-            aquecimentoValidation.ValidarTempo(tempo);
-
-            if (potencia.HasValue)
+            if (!string.IsNullOrEmpty(programa))
             {
-                aquecimentoValidation.ValidarPotencia(potencia.Value);
+                var programaAquecimento = aquecimentoValidation.ValidarPrograma(programa);
+                var aquecimento = new Aquecimento()
+                {
+                    Id = Guid.NewGuid(),
+                    Tempo = programaAquecimento.Tempo,
+                    Potencia = programaAquecimento.Potencia,
+                    Caractere = programaAquecimento.Caractere
+                };
+                aquecimento.Progresso = programaAquecimento.Nome + " ";
+                Thread thread = new Thread(() => Aquecer(aquecimento));
+                thread.Start();
+
+                return aquecimento;
             }
             else
             {
-                potencia = 10;
+                aquecimentoValidation.ValidarTempo(tempo);
+
+                if (potencia.HasValue)
+                {
+                    aquecimentoValidation.ValidarPotencia(potencia.Value);
+                }
+                else
+                {
+                    potencia = 10;
+                }
+
+                var aquecimento = new Aquecimento()
+                {
+                    Id = Guid.NewGuid(),
+                    Tempo = tempo,
+                    Potencia = potencia.Value,
+                    Caractere = caractere
+                };
+                Thread thread = new Thread(() => Aquecer(aquecimento));
+                thread.Start();
+
+                return aquecimento;
             }
 
-            var aquecimento = new Aquecimento()
-            {
-                Id = Guid.NewGuid(),
-                Tempo = tempo,
-                Potencia = potencia.Value
-            };
-            //var temporizador = new Timer(tempo * 1000);
-            //temporizador.Elapsed += AquecimentoFinalizado;
-            //temporizador.Start();
-            Thread thread = new Thread(() => Aquecer(aquecimento));
-            thread.Start();
-
-            return aquecimento;
         }
+
 
         public Aquecimento IniciarAquecimentoRapido()
         {
-            return IniciarAquecimento(30, 8);
+            return IniciarAquecimento(30, 8, "", '0');
         }
 
         private void Aquecer(Aquecimento aquecimento)
         {
             aquecimentos.Add(aquecimento);
+            var programa = aquecimento.Progresso;
 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -60,7 +80,14 @@ namespace JonatamMicroondas.Domain.Services
             do
             {
                 aquecimento.TempoDecorrido = (int)stopWatch.Elapsed.TotalSeconds;
-                aquecimento.Progresso = string.Concat(Enumerable.Repeat(". ", aquecimento.Potencia * aquecimento.TempoDecorrido));
+                if (char.IsLetter(aquecimento.Caractere))
+                {
+                    aquecimento.Progresso = programa + string.Concat(Enumerable.Repeat(aquecimento.Caractere + " ", aquecimento.Potencia * aquecimento.TempoDecorrido));
+                }
+                else
+                {
+                    aquecimento.Progresso = string.Concat(Enumerable.Repeat(". ", aquecimento.Potencia * aquecimento.TempoDecorrido));
+                }
             }
             while (aquecimento.TempoDecorrido < aquecimento.Tempo);
 

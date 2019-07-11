@@ -1,4 +1,6 @@
-﻿using JonatamMicroondas.Domain.Exceptions;
+﻿using JonatamMicroondas.Domain.Entities;
+using JonatamMicroondas.Domain.Exceptions;
+using JonatamMicroondas.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +33,18 @@ namespace JonatamMicroondas.Domain.Validations
             {
                 throw new AquecimentoException("A potência mínima é 1");
             }
+        }
+
+        public ProgramaAquecimento ValidarPrograma(string programa)
+        {
+            ProgramaAquecimentoService programaAquecimentoService = new ProgramaAquecimentoService();
+
+            var programaExiste = programaAquecimentoService.ProcurarPorPrograma(programa);
+            if (programaExiste == null)
+            {
+                throw new AquecimentoException("Programa Incompatível");
+            }
+            return programaExiste;
         }
     }
 }

@@ -76,3 +76,9 @@ C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroo
 C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroondas.UI.Web\obj\Debug\JonatamMicroondas.UI.Web.pdb
 C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroondas.UI.Web\bin\JonatamMicroondas.Domain.dll
 C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroondas.UI.Web\bin\JonatamMicroondas.Domain.pdb
+C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroondas.UI.Web\bin\FluentValidation.dll
+C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroondas.UI.Web\bin\FluentValidation.xml
+C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroondas.UI.Web\bin\FluentValidation.Mvc.dll
+C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroondas.UI.Web\bin\FluentValidation.ValidatorAttribute.dll
+C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroondas.UI.Web\bin\System.ComponentModel.Annotations.dll
+C:\Users\Luciane\source\repos\Jonatam_Microondas\JonatamMicroondas\JonatamMicroondas.UI.Web\bin\FluentValidation.Mvc.xml

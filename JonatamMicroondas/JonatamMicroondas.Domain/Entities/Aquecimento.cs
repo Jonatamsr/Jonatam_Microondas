@@ -14,6 +14,7 @@ namespace JonatamMicroondas.Domain.Entities
         public int TempoDecorrido { get; set; }
         public int Potencia { get; set; }
         public string Progresso { get; set; }
+        public char Caractere { get; set; }
         public ProgramaAquecimento ProgramaAquecimento { get; set; }
     }
 }

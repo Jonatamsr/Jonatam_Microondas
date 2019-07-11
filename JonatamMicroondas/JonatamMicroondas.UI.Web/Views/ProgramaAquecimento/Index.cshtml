@@ -1,0 +1,49 @@
+﻿@model IEnumerable<JonatamMicroondas.Domain.Entities.ProgramaAquecimento>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Programas de Aquecimento</h2>
+
+<p>
+    @Html.ActionLink("Criar Novo Programa", "Criar")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Instrucao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tempo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Potencia)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Instrucao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tempo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Potencia)
+        </td>
+        <td>
+            @Html.ActionLink("Executar", "Executar", new { id = item.Id })
+        </td>
+    </tr>
+}
+
+</table>

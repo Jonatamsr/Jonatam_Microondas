@@ -1,4 +1,5 @@
-﻿using JonatamMicroondas.Domain.Exceptions;
+﻿using JonatamMicroondas.Domain.Entities;
+using JonatamMicroondas.Domain.Exceptions;
 using JonatamMicroondas.Domain.Services;
 using System;
 using System.Collections.Generic;
@@ -12,17 +13,18 @@ namespace JonatamMicroondas.UI.Web.Controllers
     {
         //Normalmente seria utilizado injeção de dependência. Por questões de tempo fiz a instância diretamente.
         AquecimentoService aquecimentoService = new AquecimentoService();
+        ProgramaAquecimentoService programaAquecimentoService = new ProgramaAquecimentoService();
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public JsonResult IniciarAquecimento(int tempo, int? potencia, string programa)
+        public JsonResult IniciarAquecimento(int tempo, int? potencia, string programa, char caractere)
         {
             try
             {
-                var aquecimento = aquecimentoService.IniciarAquecimento(tempo, potencia);
+                var aquecimento = aquecimentoService.IniciarAquecimento(tempo, potencia, programa, caractere);
                 return Json(aquecimento);
             }
             catch (AquecimentoException e)

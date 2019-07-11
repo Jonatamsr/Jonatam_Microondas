@@ -2,20 +2,63 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h3>@ViewBag.param</h3>
-    <input type="text" id="tempo" placeholder="Tempo" />
-    <input type="text" id="potencia" placeholder="Potência" />
-    <input type="text" id="programa" placeholder="Programa" />
-    <button id="iniciar">Iniciar</button>
-    <button id="iniciarAuto">Inicio Rápido</button>
-    <h4 id="status"></h4>
-</div>
+    <div class="jumbotron">
+        <h3>@ViewBag.param</h3>
+        <input type="text" id="tempo" placeholder="Tempo" />
+        <input type="text" id="potencia" placeholder="Potência" />
+        <input type="text" id="programa" placeholder="Programa" />
+        <button id="iniciar">Iniciar</button>
+        <button id="iniciarAuto">Inicio Rápido</button>
+        <h4 id="status"></h4>
+    </div>
 
 @section Scripts {
     <script>
         var idAquecimento;
         var timer;
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+             }
+        };  
+
+
+        $(document).ready(function () {
+            if (getUrlParameter('programa')) {
+                var tempo = getUrlParameter('tempo');
+                var potencia = getUrlParameter('potencia');
+                var programa = getUrlParameter('programa');
+                var caractere = getUrlParameter('caractere');
+
+                $("input, button").prop('disabled', true);
+
+                $.ajax({
+                    url: "@Url.Action("IniciarAquecimento", "Home")",
+                    data: JSON.stringify({ "potencia": potencia, "tempo": tempo, "programa": programa, "caractere": caractere }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    type: "POST"
+                }).done(function (result) {
+                    $("#status").html(result.Progresso);
+                    $("#tempo").val(result.Tempo);
+                    $("#programa").val(result.programa);
+                    $("#potencia").val(result.Potencia);
+                    timer = setInterval(function () { AtualizarStatus(result.Id) }, 1000);
+                }).fail(function (xhr, status, error) {
+                    $("#status").html(xhr.responseJSON.Message);
+                });
+            }
+        });
 
         $("#iniciar").click(function () {
 
@@ -23,9 +66,11 @@
             var potencia = $("#potencia").val();
             var programa = $("#programa").val();
 
-            if (!$.isNumeric(tempo)) {
+            if (!$.isNumeric(tempo) && programa.length == 0) {
                 $("#status").html("Tempo inválido.");
-            return;
+                return;
+            } else {
+                tempo = 1;
             }
 
             if (potencia && !$.isNumeric(potencia)) {
@@ -37,52 +82,55 @@
 
             $.ajax({
                 url: "@Url.Action("IniciarAquecimento", "Home")",
-                data: JSON.stringify({ "potencia": potencia, "tempo": tempo, "programa": programa }),
+                data: JSON.stringify({ "potencia": potencia, "tempo": tempo, "programa": programa, "caractere":'0' }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 type: "POST"
             }).done(function (result) {
+                $("#tempo").val(result.Tempo);
                 $("#status").html(result.Progresso);
                 $("#potencia").val(result.Potencia);
+                timer = setInterval(function () { AtualizarStatus(result.Id) }, 1000);
+            }).fail(function (xhr, status, error) {
+                $("#status").html(xhr.responseJSON.Message);
+                $("input, button").prop('disabled', false);
+            });
+        });
+
+        $("#iniciarAuto").click(function ()
+        {
+            $("input, button").prop('disabled', true);
+
+            $.ajax({
+                url: "@Url.Action("IniciarAquecimentoRapido", "Home")",
+                contentType: "application/json; charset=utf-8",
+                type: "POST"
+            }).done(function (result) {
+                $("#programa").val("");
+                $("#tempo").val(result.Tempo);
+                $("#potencia").val(result.Potencia);
+                $("#status").html(result.Progresso);
                 timer = setInterval(function () { AtualizarStatus(result.Id) }, 1000);
             }).fail(function (xhr, status, error) {
                 $("#status").html(xhr.responseJSON.Message);
             });
         });
 
-    $("#iniciarAuto").click(function ()
-    {
-        $("input, button").prop('disabled', true);
-
-        $.ajax({
-            url: "@Url.Action("IniciarAquecimentoRapido", "Home")",
-            contentType: "application/json; charset=utf-8",
-            type: "POST"
-        }).done(function (result) {
-            $("#tempo").val(result.Tempo);
-            $("#potencia").val(result.Potencia);
-            $("#status").html(result.Progresso);
-            timer = setInterval(function () { AtualizarStatus(result.Id) }, 1000);
-        }).fail(function (xhr, status, error) {
-            $("#status").html(xhr.responseJSON.Message);
-        });
-    });
-
-    function AtualizarStatus(id) {
-        $.ajax({
-            url: "@Url.Action("ObterAquecimento", "Home")",
-            data: JSON.stringify({ "id": id }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            type: "POST"
-        }).done(function (result) {
-            if (result.Finalizado) {
-                clearTimeout(timer);
-                $("input, button").prop('disabled', false);
-            }
-            $("#status").html(result.Progresso);
-        });
-    }
+        function AtualizarStatus(id) {
+            $.ajax({
+                url: "@Url.Action("ObterAquecimento", "Home")",
+                data: JSON.stringify({ "id": id }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "POST"
+            }).done(function (result) {
+                if (result.Finalizado) {
+                    clearTimeout(timer);
+                    $("input, button").prop('disabled', false);
+                }
+                $("#status").html(result.Progresso);
+            });
+        }
 
     </script>
 }

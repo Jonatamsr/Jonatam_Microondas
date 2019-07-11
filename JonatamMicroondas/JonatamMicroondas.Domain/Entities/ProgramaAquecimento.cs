@@ -1,23 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JonatamMicroondas.Domain.Entities
 {
     public class ProgramaAquecimento
     {
+        [Key]
         [Required]
-        public String Nome { get; set; }
+        public Guid Id { get; set; }
         [Required]
-        public String Instrucao { get; set; }
+        public string Nome { get; set; }
         [Required]
-        [MaxLength]
-        public String Tempo { get; set; }
+        public string Instrucao { get; set; }
         [Required]
-        public String Potencia { get; set; }
+        [Range(1, 120)]
+        public int Tempo { get; set; }
+        [Required]
+        [Range(1, 10)]
+        public int Potencia { get; set; }
         [Required]
         public char Caractere { get; set; }
     }
