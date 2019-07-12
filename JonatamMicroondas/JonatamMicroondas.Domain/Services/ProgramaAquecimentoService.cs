@@ -12,12 +12,14 @@ namespace JonatamMicroondas.Domain.Services
         //Onde será armazenado os programas de aquecimento, por não poder utilizar BD
         private static List<ProgramaAquecimento> programasAquecimento = new List<ProgramaAquecimento>();
 
-        public void Criar(ProgramaAquecimento programaAquecimento)
+        public bool Criar(ProgramaAquecimento programaAquecimento)
         {
             if (programasAquecimento.SingleOrDefault(i => i.Nome == programaAquecimento.Nome) == null)
             {
                 programasAquecimento.Add(programaAquecimento);
+                return true;
             }
+            return false;
         }
 
         public List<ProgramaAquecimento> Listar()

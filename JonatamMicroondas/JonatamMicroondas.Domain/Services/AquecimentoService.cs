@@ -17,7 +17,7 @@ namespace JonatamMicroondas.Domain.Services
         private AquecimentoValidation aquecimentoValidation = new AquecimentoValidation();
         private static List<Aquecimento> aquecimentos = new List<Aquecimento>();
 
-        public Aquecimento IniciarAquecimento(int tempo, int? potencia, string programa, char caractere)
+        public Aquecimento IniciarAquecimento(int tempo, int? potencia, string programa, char? caractere)
         {
             if (!string.IsNullOrEmpty(programa))
             {
@@ -53,7 +53,7 @@ namespace JonatamMicroondas.Domain.Services
                     Id = Guid.NewGuid(),
                     Tempo = tempo,
                     Potencia = potencia.Value,
-                    Caractere = caractere
+                    Caractere = caractere.Value
                 };
                 Thread thread = new Thread(() => Aquecer(aquecimento));
                 thread.Start();
@@ -66,7 +66,7 @@ namespace JonatamMicroondas.Domain.Services
 
         public Aquecimento IniciarAquecimentoRapido()
         {
-            return IniciarAquecimento(30, 8, "", '0');
+            return IniciarAquecimento(30, 8, "", ' ');
         }
 
         private void Aquecer(Aquecimento aquecimento)
@@ -80,7 +80,7 @@ namespace JonatamMicroondas.Domain.Services
             do
             {
                 aquecimento.TempoDecorrido = (int)stopWatch.Elapsed.TotalSeconds;
-                if (char.IsLetter(aquecimento.Caractere))
+                if (char.IsLetterOrDigit(aquecimento.Caractere))
                 {
                     aquecimento.Progresso = programa + string.Concat(Enumerable.Repeat(aquecimento.Caractere + " ", aquecimento.Potencia * aquecimento.TempoDecorrido));
                 }

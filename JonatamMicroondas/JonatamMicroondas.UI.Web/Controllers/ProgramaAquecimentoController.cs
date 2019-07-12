@@ -30,7 +30,14 @@ namespace JonatamMicroondas.UI.Web.Controllers
         public ActionResult Criar(ProgramaAquecimento programaAquecimento)
         {
             programaAquecimento.Id = Guid.NewGuid();
-            programaAquecimentoService.Criar(programaAquecimento);
+            if (programaAquecimentoService.Criar(programaAquecimento))
+            {
+                TempData["Status"] = "Programa de Aquecimento Cadastrado com Sucesso.";
+            }
+            else
+            {
+                TempData["Status"] = "Programa Já Existe.";
+            }
             return RedirectToAction("Index", "ProgramaAquecimento");
         }
 

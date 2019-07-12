@@ -20,12 +20,20 @@ namespace JonatamMicroondas.UI.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult IniciarAquecimento(int tempo, int? potencia, string programa, char caractere)
+        public JsonResult IniciarAquecimento(int tempo, int? potencia, string programa, char? caractere)
         {
             try
             {
-                var aquecimento = aquecimentoService.IniciarAquecimento(tempo, potencia, programa, caractere);
-                return Json(aquecimento);
+                if (caractere.HasValue)
+                {
+                    var aquecimento = aquecimentoService.IniciarAquecimento(tempo, potencia, programa, caractere.Value);
+                    return Json(aquecimento);
+                }
+                else
+                {
+                    var aquecimento = aquecimentoService.IniciarAquecimento(tempo, potencia, programa, ' ');
+                    return Json(aquecimento);
+                }
             }
             catch (AquecimentoException e)
             {

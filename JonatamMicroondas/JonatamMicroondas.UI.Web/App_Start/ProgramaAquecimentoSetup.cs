@@ -27,7 +27,7 @@ namespace JonatamMicroondas.UI.Web.App_Start
             programaAquecimento = new ProgramaAquecimento()
             {
                 Id = Guid.NewGuid(),
-                Nome = "Frango",
+                Nome = "Frango Descongelado",
                 Instrucao = "Frango Descongelado. Aquecer no microondas por 50 segundos em potência 3.",
                 Tempo = 50,
                 Potencia = 3,
